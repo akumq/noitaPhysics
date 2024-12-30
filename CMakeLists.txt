@@ -45,3 +45,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 # Include directories
 target_include_directories(${PROJECT_NAME} PRIVATE include)
+
+# add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#     ${CMAKE_SOURCE_DIR}/font/Daydream.ttf
+#     $<TARGET_FILE_DIR:${PROJECT_NAME}>/font/Daydream.ttf
+# )

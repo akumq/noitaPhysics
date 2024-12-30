@@ -10,7 +10,7 @@ void World::reset() {
 void World::addTile(sf::Vector2f position, int type) {
     position = toGridPosition(position);
     Tile* tile = TileHandler::SwitchTile(position, type, this);
-    std::cout << "\n Position x: \t" << position.x << "\n Position y: \t" << position.y << std::endl;
+    // std::cout << "\n Position x: \t" << position.x << "\n Position y: \t" << position.y << std::endl;
     tileMap[position] = tile;
 }
 

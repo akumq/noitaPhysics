@@ -5,10 +5,12 @@ Tile::Tile(int x, int y) : position(x, y) {}
 Tile::Tile(sf::Vector2f position) : position(position) {}
 
 void Tile::setPos(sf::Vector2f newPosition) {
-    sf::Vector2f oldPosition = sf::Vector2f(position.x, position.y);
-    position = sf::Vector2f(newPosition);
-    if (oldPosition != newPosition) {
-        hasChanged = true;
+    if(!pinned){
+        sf::Vector2f oldPosition = sf::Vector2f(position.x, position.y);
+        position = sf::Vector2f(newPosition);
+        if (oldPosition != newPosition) {
+            hasChanged = true;
+        }
     }
 }
 

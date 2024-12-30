@@ -7,6 +7,9 @@ Tile* TileHandler::SwitchTile(sf::Vector2f position, int Type, World* world) {
         case SAND:
             tile = new Sand(position, world);
             break;
+        case BLOCK:
+            tile = new Block(position);
+            break;
         default:
             tile = new Tile(position);
             break;
