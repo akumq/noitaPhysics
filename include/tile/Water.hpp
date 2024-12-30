@@ -5,10 +5,10 @@
 
 class World;
 
-class Sand : public Tile {
+class Water : public Tile {
 public:
-    Sand(int x, int y, World* world);
-    Sand(sf::Vector2f position, World* world);
+    Water(int x, int y, World* world);
+    Water(sf::Vector2f position, World* world);
 
     void update() override;
     sf::RectangleShape getShape() override;

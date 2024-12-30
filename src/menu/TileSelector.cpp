@@ -35,7 +35,7 @@ void TileSelector::updateTileShapes() {
     buttons.clear();
     tileShapes.clear();
 
-    float buttonWidth = Config::WIDTH / (TileHandler::BLOCK + 1); // Largeur des boutons
+    float buttonWidth = Config::WIDTH / (TileHandler::TileTypes); // Largeur des boutons
     float buttonHeight = 50; // Hauteur des boutons
     
     for (int i = 0; i <= TileHandler::TileTypes; ++i) {
