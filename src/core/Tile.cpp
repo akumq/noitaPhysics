@@ -32,3 +32,19 @@ sf::RectangleShape Tile::getShape() {
     rect.setFillColor(sf::Color::White);
     return rect;
 }
+
+bool Tile::checkWorldBound(const sf::Vector2f& pos){
+    if (pos.x < 0 || pos.x >= Config::WIDTH / Config::CELL_SIZE ||
+        pos.y < 0 || pos.y >= Config::HEIGHT / Config::CELL_SIZE) {
+        return false;
+    }
+    return true;
+}
+
+void Tile::swapPositions(Tile* other) {
+    sf::Vector2f temp = position;
+    position = other->position;
+    other->position = temp;
+    hasChanged = true;
+    other->hasChanged = true;
+}

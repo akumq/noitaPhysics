@@ -28,8 +28,9 @@ int main() {
 
         world.draw(window);
         world.update();
-        
         tileSelector.draw(window);
+        
+        InputHandler::draw_radius(window);
         window.display();
     }
 

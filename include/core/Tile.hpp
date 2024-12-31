@@ -9,6 +9,7 @@ public:
     sf::Vector2f position;
     sf::Vector2f previous_position;
     sf::Vector2f acceleration;
+    bool isFluid = false;
     bool pinned;
     bool hasChanged = false;
 
@@ -20,6 +21,8 @@ public:
 
     virtual void update();
     virtual sf::RectangleShape getShape();
+    virtual bool checkWorldBound(const sf::Vector2f& pos);
+    void swapPositions(Tile* other);
 };
 
 #endif // TILE_H

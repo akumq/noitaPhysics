@@ -9,9 +9,24 @@ void World::reset() {
 
 void World::addTile(sf::Vector2f position, int type) {
     position = toGridPosition(position);
+
     Tile* tile = TileHandler::SwitchTile(position, type, this);
     // std::cout << "\n Position x: \t" << position.x << "\n Position y: \t" << position.y << std::endl;
     tileMap[position] = tile;
+}
+
+void World::addTilesInRadius(sf::Vector2f center, float radius, int type) {
+    sf::Vector2f start = center - sf::Vector2f(radius, radius);
+    sf::Vector2f end = center + sf::Vector2f(radius, radius);
+
+    for (int y = start.y; y <= end.y; ++y) {
+        for (int x = start.x; x <= end.x; ++x) {
+            sf::Vector2f position(x, y);
+            if (std::abs(position.x - center.x) + std::abs(position.y - center.y) <= radius) {
+                addTile(position, type);
+            }
+        }
+    }
 }
 
 std::vector<sf::Vector2f> World::getNeighbors(const sf::Vector2f& position) const {
@@ -48,8 +63,14 @@ void World::update() {
         std::sort(tilesToUpdate.begin(), tilesToUpdate.end(),
             [](Tile* a, Tile* b) { return a->position.y > b->position.y; });
 
+        // Stocker les positions précédentes pour gérer les swaps
+        std::map<Tile*, sf::Vector2f> oldPositions;
         for (Tile* tile : tilesToUpdate) {
-            sf::Vector2f oldPos = tile->position;
+            oldPositions[tile] = tile->position;
+        }
+
+        for (Tile* tile : tilesToUpdate) {
+            sf::Vector2f oldPos = oldPositions[tile];
             tile->update();
 
             // Check collision with the ground
@@ -58,12 +79,19 @@ void World::update() {
                 continue;
             }
 
-            // Check collision with other tiles
-            auto belowTile = getGridTile(tile->position);
-            if (belowTile != nullptr && belowTile != tile) {
-                tile->setPos(oldPos);
-            } else if (tile->hasChanged) {
+            // Si la position a changé, mettre à jour la map
+            if (tile->hasChanged) {
+                // Supprimer l'ancienne entrée
                 tileMap.erase(oldPos);
+                
+                // Si un autre tile était à la nouvelle position (cas du swap)
+                auto existingTile = tileMap.find(tile->position);
+                if (existingTile != tileMap.end() && existingTile->second != tile) {
+                    // L'autre tile a déjà été mis à jour à l'ancienne position de celui-ci
+                    tileMap[oldPos] = existingTile->second;
+                }
+                
+                // Mettre à jour la nouvelle position
                 tileMap[tile->position] = tile;
                 tile->hasChanged = false;
             }

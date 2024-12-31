@@ -24,6 +24,7 @@ public:
     World();
     void reset();
     void addTile(sf::Vector2f position, int type);
+    void addTilesInRadius(sf::Vector2f center, float radius, int type);
     std::vector<sf::Vector2f> getNeighbors(const sf::Vector2f& position) const;
     Tile* getGridTile(const sf::Vector2f position);
     void update();

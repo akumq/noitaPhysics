@@ -9,9 +9,12 @@
 class InputHandler {
 public:
     static bool mouse_pressed;
+    static float radius; 
     static TileHandler::TileType selectedTileType;
 
     static void handle_mouse_click(sf::Event event, sf::RenderWindow& window, World& world, TileSelector& tileSelector);
+
+    static void draw_radius(sf::RenderWindow& window);
 };
 
 #endif // INPUT_HANDLER_H

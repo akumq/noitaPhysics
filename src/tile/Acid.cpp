@@ -1,15 +1,15 @@
-#include "tile/Water.hpp"
+#include "tile/Acid.hpp"
 #include "core/World.hpp"
 
-Water::Water(int x, int y, World* world) : Tile(x, y), world(world) {
+Acid::Acid(int x, int y, World* world) : Tile(x, y), world(world) {
     isFluid = true;
 }
 
-Water::Water(sf::Vector2f position, World* world) : Tile(position), world(world){
+Acid::Acid(sf::Vector2f position, World* world) : Tile(position), world(world){
     isFluid = true;
 }
 
-void Water::update() {
+void Acid::update() {
     if (!pinned) {
         sf::Vector2f newPosition = position;
 
@@ -51,14 +51,14 @@ void Water::update() {
     }
 }
 
-sf::RectangleShape Water::getShape() {
+sf::RectangleShape Acid::getShape() {
     sf::RectangleShape rect(sf::Vector2f(Config::CELL_SIZE, Config::CELL_SIZE));
     rect.setPosition(position * Config::CELL_SIZE);
     rect.setFillColor(sf::Color(10, 10, 255,255));
     return rect;
 }
 
-bool Water::checkCollision(const sf::Vector2f& pos) {
+bool Acid::checkCollision(const sf::Vector2f& pos) {
     // Check world bounds
     if (pos.x < 0 || pos.x >= Config::WIDTH / Config::CELL_SIZE ||
         pos.y < 0 || pos.y >= Config::HEIGHT / Config::CELL_SIZE) {
