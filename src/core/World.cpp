@@ -101,6 +101,11 @@ void World::update() {
     }
 }
 
+void World::updateTilePosition(Tile* tile, const sf::Vector2f& oldPos, const sf::Vector2f& newPos) {
+    tileMap.erase(oldPos);
+    tileMap[newPos] = tile;
+}
+
 void World::draw(sf::RenderWindow& window) {
     for (auto& pair : tileMap) {
         Tile* tile = pair.second;

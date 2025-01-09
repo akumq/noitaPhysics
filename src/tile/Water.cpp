@@ -11,46 +11,38 @@ Water::Water(sf::Vector2f position, World* world) : Tile(position), world(world)
 
 void Water::update() {
     if (!pinned) {
+        sf::Vector2f oldPosition = position;
         sf::Vector2f newPosition = position;
 
-        // Check bottom
-        newPosition.y += 1;
-        if (!checkCollision(newPosition)) {
-            Tile::setPos(newPosition);
-            return;
-        }
+        const std::vector<sf::Vector2f> moves = {
+            sf::Vector2f(0, 1),    // bottom
+            sf::Vector2f(-1, 1),   // bottom-left
+            sf::Vector2f(1, 1),    // bottom-right
+            sf::Vector2f(-1, 0),   // left
+            sf::Vector2f(1, 0)     // right
+        };
 
-        // Check bottom-left
-        newPosition = position + sf::Vector2f(-1, 1);
-        if (!checkCollision(newPosition)) {
-            Tile::setPos(newPosition);
-            return;
-        }
+        for (const auto& move : moves) {
+            newPosition = position + move;
+            
+            if (!checkWorldBound(newPosition)) {
+                continue;
+            }
 
-        // Check bottom-right
-        newPosition = position + sf::Vector2f(1, 1);
-        if (!checkCollision(newPosition)) {
-            Tile::setPos(newPosition);
-            return;
-        }
-
-        // Check Left
-        newPosition = position + sf::Vector2f(-1, 0);
-        if (!checkCollision(newPosition)) {
-            Tile::setPos(newPosition);
-            return;
-        }
-
-
-        // Check Right
-        newPosition = position + sf::Vector2f(1, 0);
-        if (!checkCollision(newPosition)) {
-            Tile::setPos(newPosition);
-            return;
+            Tile* otherTile = world->getGridTile(newPosition);
+            
+            if (otherTile == nullptr) {
+                // Case vide - déplacement simple
+                position = newPosition;
+                hasChanged = true;
+                world->tileMap.erase(oldPosition);
+                world->tileMap[newPosition] = this;
+                return;
+            } 
+           
         }
     }
 }
-
 sf::RectangleShape Water::getShape() {
     sf::RectangleShape rect(sf::Vector2f(Config::CELL_SIZE, Config::CELL_SIZE));
     rect.setPosition(position * Config::CELL_SIZE);
@@ -59,12 +51,15 @@ sf::RectangleShape Water::getShape() {
 }
 
 bool Water::checkCollision(const sf::Vector2f& pos) {
-    // Check world bounds
-    if (pos.x < 0 || pos.x >= Config::WIDTH / Config::CELL_SIZE ||
-        pos.y < 0 || pos.y >= Config::HEIGHT / Config::CELL_SIZE) {
+    if (!checkWorldBound(pos)) {
         return true;
     }
-
-    // Check other particles
-    return world->getGridTile(pos) != nullptr;
+    Tile* tile = world->getGridTile(pos);
+    if (tile == nullptr) {
+        return false;
+    }
+    if (tile->isFluid && tile != this && tile->FluidMass < FluidMass) {
+        return false;
+    }
+    return true;
 }

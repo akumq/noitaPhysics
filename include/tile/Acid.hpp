@@ -7,6 +7,8 @@ class World;
 
 class Acid : public Tile {
 public:
+    const float FluidMass =  Config::WATER_MASS *2;
+    int corrosive_count = 0;
     Acid(int x, int y, World* world);
     Acid(sf::Vector2f position, World* world);
 

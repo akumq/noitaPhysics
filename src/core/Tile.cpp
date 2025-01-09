@@ -42,9 +42,11 @@ bool Tile::checkWorldBound(const sf::Vector2f& pos){
 }
 
 void Tile::swapPositions(Tile* other) {
-    sf::Vector2f temp = position;
-    position = other->position;
-    other->position = temp;
-    hasChanged = true;
-    other->hasChanged = true;
+    if (!pinned && !other->pinned) {
+        sf::Vector2f tempPos = position;
+        position = other->position;
+        other->position = tempPos;
+        hasChanged = true;
+        other->hasChanged = true;
+    }
 }

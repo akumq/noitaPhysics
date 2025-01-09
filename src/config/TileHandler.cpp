@@ -13,6 +13,9 @@ Tile* TileHandler::SwitchTile(sf::Vector2f position, int Type, World* world) {
         case WATER:
             tile = new Water(position,world);
             break;
+        case ACID:
+            tile = new Acid(position,world);
+            break;
         default:
             tile = new Tile(position);
             break;

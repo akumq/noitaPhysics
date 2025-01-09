@@ -21,6 +21,8 @@ int main() {
                 window.close();
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R)
                 init_simulation(world);
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Q)
+                return 0;
             InputHandler::handle_mouse_click(event, window, world, tileSelector);
         }
 

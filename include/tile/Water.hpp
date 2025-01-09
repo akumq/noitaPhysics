@@ -7,6 +7,8 @@ class World;
 
 class Water : public Tile {
 public:
+    const float FluidMass =  Config::WATER_MASS;
+
     Water(int x, int y, World* world);
     Water(sf::Vector2f position, World* world);
 

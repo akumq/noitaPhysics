@@ -18,6 +18,11 @@ class Config {
         static constexpr float MOUSE_RADIUS_MIN = 1.0f;
         static constexpr float MOUSE_RADIUS_STEP= 1.0f;
 
+
+        static constexpr float WATER_MASS = 1.0f;
+
+        static constexpr int CORROSIVE_TICK = 1000;
+
 };
 
 

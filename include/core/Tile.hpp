@@ -9,6 +9,7 @@ public:
     sf::Vector2f position;
     sf::Vector2f previous_position;
     sf::Vector2f acceleration;
+    float FluidMass;
     bool isFluid = false;
     bool pinned;
     bool hasChanged = false;

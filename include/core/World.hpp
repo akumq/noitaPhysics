@@ -30,7 +30,8 @@ public:
     void update();
     void draw(sf::RenderWindow& window);
     static sf::Vector2f toGridPosition(sf::Vector2f position);
-
+    void updateTilePosition(Tile* tile, const sf::Vector2f& oldPos, const sf::Vector2f& newPos);
+    
 private:
     struct VectorComparator {
         bool operator() (sf::Vector2f lhs, sf::Vector2f rhs) const;
